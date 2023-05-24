@@ -1,32 +1,44 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <conio.h>
 
-#define SIZE 3  // Розмірність квадратної матриці
+#define SIZE 3 // Розмірність квадратної матриці
 
-// Функція для генерації двовимірного масиву з допомогою генератора псевдовипадкових чисел
-void generateMatrix(int A[][SIZE]) {
-    srand(time(NULL));  // Ініціалізуємо генератор псевдовипадкових чисел залежно від поточного часу
+// Функція для генерації симетричної матриці з допомогою генератора псевдовипадкових чисел
+void generateMatrix(int A[][SIZE])
+{
+    srand(time(NULL)); // Ініціалізуємо генератор псевдовипадкових чисел залежно від поточного часу
 
-    for (int i = 0; i < SIZE; i++) {
-        for (int j = 0; j < SIZE; j++) {
-            A[i][j] = rand() % 201 - 100;  // Генеруємо випадкове число від -100 до 100
+    for (int i = 0; i < SIZE; i++)
+    {
+        for (int j = i; j < SIZE; j++) // Генеруємо тільки верхню частину матриці
+        {
+            int number = rand() % 201 - 100; // Генеруємо випадкове число від -100 до 100
+            A[i][j] = number;
+            A[j][i] = number; // Заповнюємо відповідний елемент симетрично
         }
     }
 }
-//добавляємо кольори
-void printMatrix(int A[][SIZE]) {
+
+// Функція для виведення матриці на екран
+void printMatrix(int A[][SIZE])
+{
     printf("Матриця:\n");
-    for (int i = 0; i < SIZE; i++) {
-        for (int j = 0; j < SIZE; j++) {
+    for (int i = 0; i < SIZE; i++)
+    {
+        for (int j = 0; j < SIZE; j++)
+        {
             int number = A[i][j];
-            if (number < 0) {
-                printf("\x1B[35m%4d\x1B[0m ", number); 
-            } else if (number > 0) {
-               printf("\x1B[34m%4d\x1B[0m ", number);  
-                printf("%4d ", number);
-                  } else {
+            if (number < 0)
+            {
+                printf("\x1B[35m%4d\x1B[0m ", number);
+            }
+            else if (number > 0)
+            {
+                printf("\x1B[34m%4d\x1B[0m ", number);
+            }
+            else
+            {
                 printf("%4d ", number);
             }
         }
@@ -35,29 +47,38 @@ void printMatrix(int A[][SIZE]) {
 }
 
 // Функція для перевірки, чи є матриця симетричною відносно головної діагоналі
-int isMatrixSymmetric(int A[][SIZE]) {
-    for (int i = 0; i < SIZE; i++) {
-        for (int j = 0; j < i; j++) {
-            if (A[i][j] != A[j][i]) {
-                return 0;  // Матриця не є симетричною
+int isMatrixSymmetric(int A[][SIZE])
+{
+    for (int i = 0; i < SIZE; i++)
+    {
+        for (int j = 0; j < SIZE; j++)
+        {
+            if (A[i][j] != A[j][i])
+            {
+                return 0; // Матриця не є симетричною
             }
         }
     }
-    return 1;  // Матриця є симетричною
+    return 1; // Матриця є симетричною
 }
 
-int main() {
+int main()
+{
     int A[SIZE][SIZE];
 
-    generateMatrix(A);  // Генеруємо матрицю
+    generateMatrix(A); // Генеруємо симетричну матрицю
 
-    printMatrix(A);  // Виводимо матрицю на екран
+    printMatrix(A); // Виводимо матрицю на екран
 
-    if (isMatrixSymmetric(A)) {
+    if (isMatrixSymmetric(A))
+    {
         printf("Матриця є симетричною відносно головної діагоналі.\n");
-    } else {
+    }
+    else
+    {
         printf("Матриця не є симетричною відносно головної діагоналі.\n");
     }
 
     return 0;
 }
+
